@@ -1,0 +1,80 @@
+from curses import (
+    KEY_UP as CURSES_KEY_UP,
+    KEY_DOWN as CURSES_KEY_DOWN,
+    KEY_ENTER as CURSES_KEY_ENTER,
+    COLOR_BLACK as CURSES_BLACK
+)
+
+from typing import TypeAlias, Literal, Union
+
+SYMBOL: TypeAlias = str
+KEYBIND: TypeAlias = str
+KEY_LIST : TypeAlias = list
+COLOR: TypeAlias = int
+COLOR_DATA: TypeAlias = list
+COLOR_ID: TypeAlias = int
+
+DEFAULT_POINTER: SYMBOL = ">>"
+DEFAULT_TOP_LEFT: SYMBOL = '╭'
+DEFAULT_TOP_RIGHT: SYMBOL = '╮'
+DEFAULT_BOTTOM_LEFT: SYMBOL = '╰'
+DEFAULT_BOTTOM_RIGHT: SYMBOL = '╯'
+DEFAULT_HORIZONAL_LINE: SYMBOL = '─'
+DEFAULT_VERTICAL_LINE: SYMBOL = '│'
+DEFAULT_KEY_UP: KEYBIND = "W"
+DEFAULT_KEY_DOWN: KEYBIND = "S"
+DEFAULT_KEY_ENTER: KEYBIND = "E"
+DEFAULT_KEY_QUIT: KEYBIND = "Q"
+DEFAULT_KEY_BACK: KEYBIND = None #todo !
+
+DEFAULT_UP_KEYS: KEY_LIST = [ord(DEFAULT_KEY_UP), ord(DEFAULT_KEY_UP.lower()), CURSES_KEY_UP]
+DEFAULT_DOWN_KEYS: KEY_LIST = [ord(DEFAULT_KEY_DOWN), ord(DEFAULT_KEY_DOWN.lower()), CURSES_KEY_DOWN]
+DEFAULT_QUIT_KEYS: KEY_LIST = [ord(DEFAULT_KEY_QUIT), ord(DEFAULT_KEY_QUIT.lower())]
+DEFAULT_ENTER_KEYS: KEY_LIST = [CURSES_KEY_ENTER, 10, 13]
+
+DEFAULT_HELP_TEXT: str = f"{DEFAULT_KEY_UP}/↑: Up  {DEFAULT_KEY_DOWN}/↓: Down  {DEFAULT_KEY_ENTER}: Enter  {DEFAULT_KEY_QUIT}: Quit"
+
+CURSES_RESERVED_COLORS: int = 16
+DEFAULT_TERM_BACKGROUND_COLOR: Literal[0] = CURSES_BLACK
+
+#! color ids
+color_id_iterator = iter(range(CURSES_RESERVED_COLORS, 255))
+COLOR_RED_ID: COLOR_ID = next(color_id_iterator)
+COLOR_BLUE_ID: COLOR_ID = next(color_id_iterator)
+
+#! color data
+COLOR_RED_DATA: COLOR_DATA = [255, 0, 0]
+COLOR_BLUE_DATA: COLOR_DATA = [0, 0, 255]
+
+#! all colors
+TS_ALL_COLORS = [
+    (COLOR_RED_ID, COLOR_RED_DATA),
+    (COLOR_BLUE_ID, COLOR_BLUE_DATA)
+]
+
+#! pair ids
+pair_id_iterator = iter(range(1, 100)) #todo unknown instead of 100
+PAIR_RED_BLACK_ID = next(pair_id_iterator)
+PAIR_BLUE_BLACK_ID = next(pair_id_iterator)
+
+#! all pairs
+TS_ALL_COLOR_PAIRS = [
+    (PAIR_RED_BLACK_ID, COLOR_RED_ID, DEFAULT_TERM_BACKGROUND_COLOR),
+    (PAIR_BLUE_BLACK_ID, COLOR_BLUE_ID, DEFAULT_TERM_BACKGROUND_COLOR)
+]
+
+#! default colors
+DEFAULT_BORDER_COLOR: COLOR = PAIR_BLUE_BLACK_ID
+DEFAULT_TITLE_COLOR: COLOR = PAIR_RED_BLACK_ID
+DEFAULT_POINTER_COLOR: COLOR = PAIR_RED_BLACK_ID
+DEFAULT_CURRENT_COLOR: COLOR = PAIR_BLUE_BLACK_ID
+DEFAULT_OTHER_COLOR: COLOR = PAIR_RED_BLACK_ID
+DEFAULT_HELP_TEXT_COLOR: COLOR = PAIR_BLUE_BLACK_ID
+
+if __name__ == "__main__":
+    import os, time
+    os.system("")
+    print("\033[38;2;255;0;0mDo not execute this file!")
+    print("\033[38;2;255;255;255mInstead: from TermSelect.py import Term_Select!")
+    time.sleep(5)
+    raise PermissionError()
