@@ -11,14 +11,14 @@ long_description = (
 )
 
 setup(
-    name = "unicli",
+    name = "uniterm",
     version = "0.1.0",
     description = "todo",
     long_description = long_description,
     long_description_content_type = "text/markdown",
     author = "zisia13",
     author_email = "nothing@nothing.com",
-    url = "https://github.com/zisia13/unicli",
+    url = "https://github.com/zisia13/uniterm",
     packages = find_packages(exclude = ("temp", "temp.*")),
     python_requires = ">=3.9",
     install_requires = [],

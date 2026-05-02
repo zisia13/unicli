@@ -1,4 +1,4 @@
-name: Publish Python Package to PyPI unicli
+name: Publish Python Package to PyPI uniterm
 
 on:
   release:

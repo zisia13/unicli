@@ -6,8 +6,9 @@ from typing import Sequence, Tuple, Optional
 ANSI_RESET = "\033[0m"
 ANSI_BOLD = "\033[1m"
 
+
 class Selector:
-    
+
     @dataclass(frozen = True)
     class Actions:
         up: str = "up"
@@ -25,11 +26,11 @@ class Selector:
         @staticmethod
         def build_single_values(r: int, g: int, b: int) -> str:
             return f"\033[38;2;{r};{g};{b}m"
-        
+
         @staticmethod
         def build_tuple(color_tuple: Tuple[int, int, int]) -> str:
             return f"\033[38;2;{color_tuple[0]};{color_tuple[1]};{color_tuple[2]}m"
-    
+
     class Texts:
         def __init__(self, question: str, choices: Sequence[str], pointer: str = ">"):
             self.question = question
@@ -55,7 +56,6 @@ class Selector:
         key = msvcrt.getch()
 
         if key in keybinds.arrow_prefix_chars:
-            print("line 58")
             special = msvcrt.getch()
             if special == keybinds.up_arrow_char:
                 return actions.up
@@ -131,11 +131,11 @@ class Selector:
 
 if __name__ == "__main__":
 
-    texts = Selector.Texts(
+    demo_texts = Selector.Texts(
         question = "Is this a test question?",
-        pointer="a",
         choices = ("numpy", "requests", "rich", "exit")
     )
+    demo_colors = Selector.Colors()
 
-    selected = Selector.select(texts)
+    selected = Selector.select(demo_texts, demo_colors)
     print(f"\nSelected: {selected}")
