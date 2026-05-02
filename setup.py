@@ -1,22 +1,38 @@
-from setuptools import setup
+from pathlib import Path
 
-name = "unicli"
-author = "zisia13"
+from setuptools import find_packages, setup
+
+ROOT = Path(__file__).parent.resolve()
+readme_path = ROOT / "README.md"
+long_description = (
+    readme_path.read_text(encoding = "utf-8")
+    if readme_path.is_file() and readme_path.stat().st_size > 0
+    else "todo"
+)
 
 setup(
-    name = name,
-    version = "0",
+    name = "unicli",
+    version = "0.1.0",
     description = "todo",
-    author = author,
-    url = f"https://github.com/{author}/{name}",
+    long_description = long_description,
+    long_description_content_type = "text/markdown",
+    author = "zisia13",
     author_email = "nothing@nothing.com",
-    packages = [
-
-    ],
-    install_requires = [
-
-    ],
+    url = "https://github.com/zisia13/unicli",
+    packages = find_packages(exclude = ("temp", "temp.*")),
+    python_requires = ">=3.9",
+    install_requires = [],
     classifiers = [
-        
+        "Development Status :: 3 - Alpha",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "Operating System :: Microsoft :: Windows",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
     ],
+    zip_safe = False,
 )

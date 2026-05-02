@@ -1,12 +1,12 @@
 import os
 import msvcrt
 from dataclasses import dataclass
-from typing import Sequence, Tuple
+from typing import Sequence, Tuple, Optional
 
 ANSI_RESET = "\033[0m"
 ANSI_BOLD = "\033[1m"
 
-class Select:
+class Selector:
     
     @dataclass(frozen = True)
     class Actions:
@@ -30,13 +30,13 @@ class Select:
         def build_tuple(color_tuple: Tuple[int, int, int]) -> str:
             return f"\033[38;2;{color_tuple[0]};{color_tuple[1]};{color_tuple[2]}m"
     
-    @dataclass(frozen = True)
     class Texts:
-        question: str
-        pointer: str
-        choices: Sequence[str]
+        def __init__(self, question: str, choices: Sequence[str], pointer: str = ">"):
+            self.question = question
+            self.choices = choices
+            self.pointer = pointer
 
-    @dataclass(frozen = True)
+    @dataclass(frozen = False)
     class Keybinds:
         up_chars: Sequence[bytes] = (b"w", b"W")
         down_chars: Sequence[bytes] = (b"s", b"S")
@@ -51,10 +51,11 @@ class Select:
 
     @staticmethod
     def _read_key(keybinds: Keybinds) -> str:
-        actions = Select.Actions()
+        actions = Selector.Actions()
         key = msvcrt.getch()
 
         if key in keybinds.arrow_prefix_chars:
+            print("line 58")
             special = msvcrt.getch()
             if special == keybinds.up_arrow_char:
                 return actions.up
@@ -86,17 +87,22 @@ class Select:
                 print(f"  {colors.choice}{choice}{ANSI_RESET}")
 
     @classmethod
-    def select_choice(
+    def select(
         cls,
         texts: Texts,
-        colors: Colors,
-        keybinds: Keybinds | None = None,
+        colors: Optional[Colors] = None,
+        keybinds: Optional[Keybinds] = None,
     ) -> str:
         if not texts.choices:
             raise ValueError("choices must not be empty.")
 
         if keybinds is None:
             keybinds = cls.Keybinds()
+        if colors is None:
+            colors = cls.Colors()
+        if colors.pointer is None:
+            colors.pointer = ">"
+
         actions = cls.Actions()
 
         cls._enable_ansi_on_windows()
@@ -124,12 +130,12 @@ class Select:
 
 
 if __name__ == "__main__":
-    demo_texts = Select.Texts(
-        question = "Which package do you want to install?",
-        pointer = ">",
-        choices = ("numpy", "requests", "rich", "exit"),
-    )
-    demo_colors = Select.Colors()
 
-    selected = Select.select_choice(demo_texts, demo_colors)
+    texts = Selector.Texts(
+        question = "Is this a test question?",
+        pointer="a",
+        choices = ("numpy", "requests", "rich", "exit")
+    )
+
+    selected = Selector.select(texts)
     print(f"\nSelected: {selected}")
