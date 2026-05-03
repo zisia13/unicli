@@ -13,13 +13,20 @@ long_description = (
 setup(
     name = "uniterm",
     version = "0.1.0",
-    description = "todo",
+    description = "A collection lib of CLI utilities - selects, banners, colors, and full terminal screens.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
     author = "zisia13",
     author_email = "nothing@nothing.com",
     url = "https://github.com/zisia13/uniterm",
-    packages = find_packages(exclude = ("temp", "temp.*")),
+    packages = find_packages(
+        exclude = (
+            "temp",
+            "temp.*",
+            "lib",
+            "lib.*"
+        )
+    ),
     python_requires = ">=3.9",
     install_requires = [],
     classifiers = [
