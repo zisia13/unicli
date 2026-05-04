@@ -1,14 +1,22 @@
 from typing import TypeAlias, Tuple
 
+from ..update.update import ClassAutoupdateable, classautoupdatecheck
+
 BannerString: TypeAlias = str
 ColoredBanner: TypeAlias = str
 Color: TypeAlias = Tuple[int, int, int]
 
-class BannerPainter:
+class BannerPainter(ClassAutoupdateable):
     reset = "\033[0m"
+    _autoupdate = True
 
-    @staticmethod
-    def two_color_horizontal(text: BannerString, start_color: Color, end_color: Color) -> ColoredBanner:
+    @classmethod
+    def DisableAutoUpdate(cls) -> None:
+        cls._autoupdate = False
+
+    @classmethod
+    @classautoupdatecheck
+    def two_color_horizontal(cls, text: BannerString, start_color: Color, end_color: Color) -> ColoredBanner:
         lines = text.split('\n')
         colored_lines = []
 
@@ -34,8 +42,9 @@ class BannerPainter:
 
         return "\n".join(colored_lines)
 
-    @staticmethod
-    def two_color_vertical(text: BannerString, start_color: Color, end_color: Color) -> ColoredBanner:
+    @classmethod
+    @classautoupdatecheck
+    def two_color_vertical(cls, text: BannerString, start_color: Color, end_color: Color) -> ColoredBanner:
         r1, g1, b1 = start_color
         r2, g2, b2 = end_color
 
@@ -54,8 +63,9 @@ class BannerPainter:
 
         return '\n'.join(colored_lines)
     
-    @staticmethod
-    def four_color_horizontal(text: BannerString, color_1: Color, color_2: Color, color_3: Color, color_4: Color) -> ColoredBanner:
+    @classmethod
+    @classautoupdatecheck
+    def four_color_horizontal(cls, text: BannerString, color_1: Color, color_2: Color, color_3: Color, color_4: Color) -> ColoredBanner:
         lines = text.split('\n')
         colored_lines = []
         colors = [color_1, color_2, color_3, color_4]
@@ -95,8 +105,9 @@ class BannerPainter:
 
         return "\n".join(colored_lines)
 
-    @staticmethod
-    def four_color_vertical(text: BannerString, color_1: Color, color_2: Color, color_3: Color, color_4: Color) -> ColoredBanner:
+    @classmethod
+    @classautoupdatecheck
+    def four_color_vertical(cls, text: BannerString, color_1: Color, color_2: Color, color_3: Color, color_4: Color) -> ColoredBanner:
         lines = text.split('\n')
         colored_lines = []
         colors = [color_1, color_2, color_3, color_4]

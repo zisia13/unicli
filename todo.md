@@ -1,1 +1,4 @@
 - Progress bar from GD
+- logger
+- update warner
+- add term select

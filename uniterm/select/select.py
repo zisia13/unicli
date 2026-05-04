@@ -3,12 +3,18 @@ import msvcrt
 from dataclasses import dataclass
 from typing import Sequence, Tuple, Optional
 
+from ..update import ClassAutoupdateable, classautoupdatecheck
+
 ANSI_RESET = "\033[0m"
 ANSI_BOLD = "\033[1m"
 
+class Selector(ClassAutoupdateable):
+    _autoupdate = True
 
-class Selector:
-
+    #@classmethod
+    #def DisableAutoUpdate(cls) -> None:
+    #    cls._autoupdate = False
+    
     @dataclass(frozen = True)
     class Actions:
         up: str = "up"
@@ -87,6 +93,7 @@ class Selector:
                 print(f"  {colors.choice}{choice}{ANSI_RESET}")
 
     @classmethod
+    @classautoupdatecheck
     def select(
         cls,
         texts: Texts,
