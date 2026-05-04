@@ -8,7 +8,7 @@ from ..update import ClassAutoupdateable, classautoupdatecheck
 ANSI_RESET = "\033[0m"
 ANSI_BOLD = "\033[1m"
 
-class Selector(ClassAutoupdateable):
+class Selector(metaclass = ClassAutoupdateable):
     _autoupdate = True
 
     #@classmethod

@@ -5,18 +5,21 @@ from packaging.version import Version
 import functools
 from abc import ABCMeta, abstractmethod
 
+_autoupdate_var_name = "_autoupdate"
+
 class ObjectAutoupdateable(ABCMeta):
     @abstractmethod
     def DisableAutoUpdate(self) -> None: ...
 
 class ClassAutoupdateable(ABCMeta):
+    @classmethod
     @abstractmethod
     def DisableAutoUpdate(cls) -> None: ...
 
 def objectautoupdatecheck(func):
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
-        if self._autoupdate:
+        if getattr(self, _autoupdate_var_name):
             update_package()
         return func(self, *args, **kwargs)
     return wrapper
@@ -24,12 +27,10 @@ def objectautoupdatecheck(func):
 def classautoupdatecheck(func):
     @functools.wraps(func)
     def wrapper(cls, *args, **kwargs):
-        if cls._autoupdate:
+        if getattr(cls, _autoupdate_var_name):
             update_package()
         return func(cls, *args, **kwargs)
     return wrapper
-
-
 
 
 
