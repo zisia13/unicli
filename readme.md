@@ -1,8 +1,5 @@
 # uniterm
 
-A small **CLI utility** library: interactive selection menus, colored ASCII banners, and ANSI truecolor — with **no runtime dependencies**.
-
-**Status:** Alpha · **Python:** 3.9+
 
 ## Installation
 
@@ -10,19 +7,11 @@ A small **CLI utility** library: interactive selection menus, colored ASCII bann
 pip install uniterm
 ```
 
-Or from the repository in editable mode:
-
-```bash
-git clone https://github.com/zisia13/uniterm.git
-cd uniterm
-pip install -e .
-```
-
 ## Modules
 
 ### `Selector` — terminal menu (Windows)
 
-Interactive choice with arrow keys or **W**/**S**, confirm with **Enter**. Uses `msvcrt` and ANSI colors; the cursor is hidden while selecting.
+Interactive choice with arrow keys or **W**/**S**, confirm with **Enter**.
 
 ```python
 from uniterm import Selector
@@ -35,16 +24,14 @@ choice = Selector.select(texts)
 print(f"Selected: {choice}")
 ```
 
-Optional: custom colors (`Selector.Colors`) and key bindings (`Selector.Keybinds`).
-
 **Note:** This menu targets **Windows** (`msvcrt`). It will not work as-is on Linux or macOS.
 
-### `BannerPainter` — gradients for ASCII banners
+### `BannerPainter` - gradients for ASCII banners
 
-Color multi-line text with RGB gradients (truecolor ANSI):
+Color multi-line text with RGB gradients:
 
 ```python
-from uniterm.banner import BannerPainter
+from uniterm import BannerPainter
 
 banner = r"""
   __  __       _       _
@@ -70,17 +57,6 @@ Repo demo: `python -m uniterm.banner.test` (after install, or with `PYTHONPATH` 
 python -m uniterm.select.select   # interactive menu
 python -m uniterm.banner.test     # banner samples
 ```
-
-## Build & publish
-
-Local build:
-
-```bash
-pip install build
-python -m build
-```
-
-On a **published GitHub Release**, the workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml) builds the package and publishes it to **PyPI** (trusted publishing).
 
 ## License
 
