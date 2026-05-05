@@ -8,12 +8,12 @@ from ..update import ClassAutoupdateable, classautoupdatecheck
 ANSI_RESET = "\033[0m"
 ANSI_BOLD = "\033[1m"
 
-class Selector(metaclass = ClassAutoupdateable):
+class Selector(ClassAutoupdateable):
     _autoupdate = True
 
-    #@classmethod
-    #def DisableAutoUpdate(cls) -> None:
-    #    cls._autoupdate = False
+    @classmethod
+    def DisableAutoUpdate(cls) -> None:
+        cls._autoupdate = False
     
     @dataclass(frozen = True)
     class Actions:
