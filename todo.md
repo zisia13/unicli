@@ -1,4 +1,5 @@
 - Progress bar from GD
 - logger
 - update warner
-- add term select
+- unite var names in diff classes / termselect as cls not obj
+- color handler for "#000000" and "(0, 0, 0)"

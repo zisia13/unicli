@@ -65,3 +65,8 @@ See [`licence.md`](licence.md): **Creative Commons Attribution-NonCommercial-Sha
 ## Links
 
 - Repository: [github.com/zisia13/uniterm](https://github.com/zisia13/uniterm)
+
+## important for windows for SelectScreen
+```bash
+pip install windows-curses
+```

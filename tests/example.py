@@ -1,7 +1,7 @@
-from TermSelect import Term_Select
+from ..uniterm.screen.select.select import SelectScreen
 
 options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8"]
-term_select = Term_Select()
+term_select = SelectScreen()
 
 try:
     

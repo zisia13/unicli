@@ -1,37 +1,41 @@
 import curses
-import time
+from typing import List
 
-from zModules.zExtensions import private, public
+from .default import *
+from ...update.update import ObjectAutoupdateable, objectautoupdatecheck
 
-from default import *
+class SelectScreen(ObjectAutoupdateable):
 
-class Term_Select:
+    def DisableAutoUpdate(self):
+        self._autoupdate = False
 
-    #! init methods
-    def __init__(self, 
-                 pointer = DEFAULT_POINTER,
+    def __init__(
+            self, 
+            pointer = DEFAULT_POINTER,
 
-                 t_l = DEFAULT_TOP_LEFT,
-                 t_r = DEFAULT_TOP_RIGHT,
-                 b_l = DEFAULT_BOTTOM_LEFT,
-                 b_r = DEFAULT_BOTTOM_RIGHT,
-                 h_l = DEFAULT_HORIZONAL_LINE,
-                 v_l = DEFAULT_VERTICAL_LINE,
+            t_l = DEFAULT_TOP_LEFT,
+            t_r = DEFAULT_TOP_RIGHT,
+            b_l = DEFAULT_BOTTOM_LEFT,
+            b_r = DEFAULT_BOTTOM_RIGHT,
+            h_l = DEFAULT_HORIZONAL_LINE,
+            v_l = DEFAULT_VERTICAL_LINE,
 
-                 u_k = DEFAULT_UP_KEYS,
-                 d_k = DEFAULT_DOWN_KEYS,
-                 q_k = DEFAULT_QUIT_KEYS,
-                 e_k = DEFAULT_ENTER_KEYS,
+            u_k = DEFAULT_UP_KEYS,
+            d_k = DEFAULT_DOWN_KEYS,
+            q_k = DEFAULT_QUIT_KEYS,
+            e_k = DEFAULT_ENTER_KEYS,
 
-                 h_t = DEFAULT_HELP_TEXT,
+            h_t = DEFAULT_HELP_TEXT,
 
-                 d_b_c = DEFAULT_BORDER_COLOR,
-                 d_t_c = DEFAULT_TITLE_COLOR,
-                 d_p_c = DEFAULT_POINTER_COLOR,
-                 d_c_c = DEFAULT_CURRENT_COLOR,
-                 d_o_c = DEFAULT_OTHER_COLOR,
-                 d_h_t_c = DEFAULT_HELP_TEXT_COLOR
-                ):
+            d_b_c = DEFAULT_BORDER_COLOR,
+            d_t_c = DEFAULT_TITLE_COLOR,
+            d_p_c = DEFAULT_POINTER_COLOR,
+            d_c_c = DEFAULT_CURRENT_COLOR,
+            d_o_c = DEFAULT_OTHER_COLOR,
+            d_h_t_c = DEFAULT_HELP_TEXT_COLOR
+        ):
+
+        self._autoupdate = True
         
         self.pointer = pointer
 
@@ -58,14 +62,13 @@ class Term_Select:
 
         self.help_text = h_t
 
-    @private
-    def init_curses(self):
+    def _init_curses(self):
         
         stdscr = curses.initscr()
        
         curses.start_color()
-        self.TS_init_color()
-        self.TS_init_pair()
+        self._TS_init_color()
+        self._TS_init_pair()
 
         curses.noecho()
         curses.cbreak()
@@ -76,57 +79,51 @@ class Term_Select:
         return stdscr
 
     #! color methods
-    @private
-    def TS_transform_color(self, r, g, b):
+    def _TS_transform_color(self, r, g, b):
         _r = int(r * 1000 / 255)
         _g = int(g * 1000 / 255)
         _b = int(b * 1000 / 255)
         return (_r, _g, _b)
     
-    @private
-    def TS_init_color(self):
+    def _TS_init_color(self):
         for color in TS_ALL_COLORS:
             color_id, color_data = color
             r = color_data[0]
             g = color_data[1]
             b = color_data[2]
-            curses_r, curses_g, curses_b = self.TS_transform_color(r, g, b)
+            curses_r, curses_g, curses_b = self._TS_transform_color(r, g, b)
             curses.init_color(color_id, curses_r, curses_g, curses_b)
 
-    @private
-    def TS_init_pair(self):
+    def _TS_init_pair(self):
         for pair in TS_ALL_COLOR_PAIRS:
             curses_color_pair_id, curses_fg_color, curses_bg_color = pair
             curses.init_pair(curses_color_pair_id, curses_fg_color, curses_bg_color)
 
     #! draw methods
-    @private
-    def draw(self, win, y, x, text, attr = curses.A_NORMAL):
+    def _draw(self, win, y, x, text, attr = curses.A_NORMAL):
         try:
             win.addstr(y, x, text, attr)
         except curses.error:
             pass
 
-    @private
-    def draw_rounded_border(self, stdscr):
-
+    def _draw_rounded_border(self, stdscr):
         h, w = stdscr.getmaxyx()
 
-        self.draw(stdscr, 0, 0, self.corners['tl'], curses.color_pair(self.border_color))
-        self.draw(stdscr, 0, w - 1, self.corners['tr'], curses.color_pair(self.border_color))
-        self.draw(stdscr, h - 1, 0, self.corners['bl'], curses.color_pair(self.border_color))
-        self.draw(stdscr, h - 1, w - 1, self.corners['br'], curses.color_pair(self.border_color))
+        self._draw(stdscr, 0, 0, self.corners['tl'], curses.color_pair(self.border_color))
+        self._draw(stdscr, 0, w - 1, self.corners['tr'], curses.color_pair(self.border_color))
+        self._draw(stdscr, h - 1, 0, self.corners['bl'], curses.color_pair(self.border_color))
+        self._draw(stdscr, h - 1, w - 1, self.corners['br'], curses.color_pair(self.border_color))
 
         for x in range(1, w - 1):
-            self.draw(stdscr, 0, x, self.corners['h'], curses.color_pair(self.border_color))
-            self.draw(stdscr, h - 1, x, self.corners['h'], curses.color_pair(self.border_color))
+            self._draw(stdscr, 0, x, self.corners['h'], curses.color_pair(self.border_color))
+            self._draw(stdscr, h - 1, x, self.corners['h'], curses.color_pair(self.border_color))
 
         for y in range(1, h - 1):
-            self.draw(stdscr, y, 0, self.corners['v'], curses.color_pair(self.border_color))
-            self.draw(stdscr, y, w - 1, self.corners['v'], curses.color_pair(self.border_color))
+            self._draw(stdscr, y, 0, self.corners['v'], curses.color_pair(self.border_color))
+            self._draw(stdscr, y, w - 1, self.corners['v'], curses.color_pair(self.border_color))
 
     #! change attr methods
-    @public
+    @objectautoupdatecheck
     def change_UI(self, **kwargs):
 
         """
@@ -156,7 +153,7 @@ class Term_Select:
                 else: 
                     raise ValueError("Type of attr must str!")
 
-    @public
+    @objectautoupdatecheck
     def change_colors(self, **kwargs):
 
         """
@@ -184,15 +181,14 @@ class Term_Select:
                 else:
                     raise ValueError("Type of attr must be int!")
 
-    @public
+    @objectautoupdatecheck
     def change_keybinds(self, **kwarg):
         pass                                            #todo !
 
     #! interface methods
-    @public
-    def select_interface(self, message, choices, endless = False):
-
-        stdscr = self.init_curses()
+    @objectautoupdatecheck
+    def select_interface(self, message: str, choices: List[str], endless: bool = False):
+        stdscr = self._init_curses()
 
         try:
             current = 0
@@ -206,11 +202,11 @@ class Term_Select:
             while True:
 
                 stdscr.clear()
-                self.draw_rounded_border(stdscr)
+                self._draw_rounded_border(stdscr)
                 
                 title = f" {message} "
                 title_x = (w - len(title)) // 2
-                self.draw(stdscr, 2, title_x, title, curses.color_pair(self.title_color))
+                self._draw(stdscr, 2, title_x, title, curses.color_pair(self.title_color))
 
                 for i, choice in enumerate(choices):
                     y_pos = start_y + i
@@ -219,10 +215,10 @@ class Term_Select:
                     pointer = self.pointer if i == current else "  "
                     text = pointer + choice
                     attr = curses.color_pair(self.current_color) if i == current else curses.color_pair(self.other_color)
-                    self.draw(stdscr, y_pos, start_x, text, attr)
+                    self._draw(stdscr, y_pos, start_x, text, attr)
 
                 help_x = (w - len(self.help_text)) // 2
-                self.draw(stdscr, h - 3, help_x, self.help_text, curses.color_pair(self.help_text_color))
+                self._draw(stdscr, h - 3, help_x, self.help_text, curses.color_pair(self.help_text_color))
 
                 stdscr.refresh()
 
@@ -240,10 +236,10 @@ class Term_Select:
                 curses.curs_set(1)
                 curses.endwin()
 
+
+#! test
 if __name__ == "__main__":
-    import os, time
-    os.system("")
-    print("\033[38;2;255;0;0mDo not execute this file!")
-    print("\033[38;2;255;255;255mInstead: from TermSelect.py import Term_Select!")
-    time.sleep(5)
-    raise PermissionError()
+    c = ["a", "b", "c"]
+    s = SelectScreen()
+    
+    s.select_interface("Hello?", c)
