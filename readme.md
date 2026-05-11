@@ -63,8 +63,8 @@ python -m uniterm.banner.test     # banner samples
 See [`licence.md`](licence.md): **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International** (CC BY-NC-SA 4.0).
 
 ## Links
-
-- Repository: [github.com/zisia13/uniterm](https://github.com/zisia13/uniterm)
+- Repository: [zisia13/uniterm](https://github.com/zisia13/uniterm)
+- Banner: n/a
 
 ## important for windows for SelectScreen
 ```bash
