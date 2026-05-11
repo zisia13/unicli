@@ -1,7 +1,10 @@
 from uniterm import (
     Selector,
     BannerPainter,
-    SelectScreen
+    SelectScreen,
+    progress_bar_1,
+    hide_CLI_cursor,
+    show_CLI_cursor
 )
 
 def test_selector() -> None:
@@ -41,10 +44,22 @@ if __name__ == "__main__":
     from time import sleep
 
     test_selector()
-    sleep(4)
 
     test_banner_painter()
-    sleep(4)
 
+    for counter in range(100):
+        progress_bar_1(
+            current = counter + 1,
+            current_name = "hello",
+            total = 100,
+            width = 100,
+            longest_name = 10
+        )
+        sleep(0.05)
+
+    hide_CLI_cursor()
+    sleep(1)
+    show_CLI_cursor()
+    sleep(1)
+    
     test_select_screen()
-    sleep(4)
