@@ -17,10 +17,13 @@ def test_selector() -> None:
     print(f"Selected: {choice}")
 
 def test_banner_painter() -> None:
-    raw = """-----------------------------------------------"""
+    BannerPainter.DisableAutoUpdate()
+    raw = """"""
+    raw += """-----------------------------------------------"""
+    raw += """                  Projectname                  """
+    raw += """-----------------------------------------------"""
     start_color = (255, 0, 0)
     end_color = (0, 255, 0)
-    BannerPainter.DisableAutoUpdate()
     banner = BannerPainter.two_color_horizontal(
         text = raw,
         start_color = start_color,
@@ -29,10 +32,11 @@ def test_banner_painter() -> None:
     print(banner)
 
 def test_select_screen() -> None:
-    options = ["Option 1", "Option 2", "Option 3"]
-    select_screen = SelectScreen()
+
     select_screen.DisableAutoUpdate()
 
+    options = ["Option 1", "Option 2", "Option 3"]
+    select_screen = SelectScreen()
     choice = select_screen.select_interface(
         message = "Select something:", 
         choices = options, 

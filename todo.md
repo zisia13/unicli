@@ -3,5 +3,5 @@
 - update warner
 - unite var names in diff classes / termselect as cls not obj
 - color handler for "#000000" and "(0, 0, 0)"
-- rework readme.md
 - add requirements.txt
+- add banner and font links in readme.md
