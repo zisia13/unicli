@@ -12,12 +12,12 @@ long_description = (
 
 setup(
     name = "uniterm",
-    version = "0.2.4",
+    version = "0.2.5",
     description = "A collection lib of CLI utilities - selects, banners, colors, and full terminal screens.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
     author = "zisia13",
-    author_email = "nothing@nothing.com",
+    #? author_email = "nothing@nothing.com",
     url = "https://github.com/zisia13/uniterm",
     packages = find_packages(
         exclude = (

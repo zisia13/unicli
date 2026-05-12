@@ -85,6 +85,21 @@ for counter in range(100):
     time.sleep(0.05)
 ```
 
+### `Logger` - A simple logger with log levels
+```python
+from uniterm.logger.logger import Levels
+logger = Logger(
+    name = "Test",
+    show_time = True,
+    log_info = True,
+    log_level = Levels.Success
+)
+logger.Info("hello")
+logger.Success("hello")
+logger.Warning("hello")
+logger.Error("hello")
+```
+
 ## Local demos
 ```bash
 python -m uniterm.select.select

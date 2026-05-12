@@ -2,6 +2,7 @@ from uniterm import (
     Selector,
     BannerPainter,
     SelectScreen,
+    Logger,
     progress_bar_1,
     hide_CLI_cursor,
     show_CLI_cursor
@@ -32,17 +33,28 @@ def test_banner_painter() -> None:
     print(banner)
 
 def test_select_screen() -> None:
-
-    select_screen.DisableAutoUpdate()
-
     options = ["Option 1", "Option 2", "Option 3"]
     select_screen = SelectScreen()
+    select_screen.DisableAutoUpdate()
     choice = select_screen.select_interface(
         message = "Select something:", 
         choices = options, 
         endless = True
     )
     print(f"Selected: {choice}")
+
+def test_logger() -> None:
+    from uniterm.logger.logger import Levels
+    logger = Logger(
+    name = "Test",
+    show_time = True,
+    log_info = True,
+    log_level = Levels.Success
+    )
+    logger.Info("hello")
+    logger.Success("hello")
+    logger.Warning("hello")
+    logger.Error("hello")
 
 if __name__ == "__main__":
     from time import sleep
@@ -64,6 +76,9 @@ if __name__ == "__main__":
     hide_CLI_cursor()
     sleep(1)
     show_CLI_cursor()
+    sleep(1)
+
+    test_logger()
     sleep(1)
     
     test_select_screen()
