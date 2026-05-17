@@ -1,6 +1,4 @@
-- update warner
 - unite var names in diff classes / termselect as cls not obj
 - add missing autoupdate obj and cls
-- color handler for "#000000" and "(0, 0, 0)"
 - add requirements.txt
-- add banner and font links in readme.md
+- rework logger (+add .collect() and .save() method to store logs) (+add more log levels)

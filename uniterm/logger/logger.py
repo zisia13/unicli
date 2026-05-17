@@ -17,10 +17,10 @@ class Colors:
     Error: ColorType
 
 class Default:
-    Info_Color: ColorType = b(0, 0, 255)
-    Success_Color: ColorType = b(0, 255, 0)
-    Warning_Color: ColorType = b(255, 255, 0)
-    Error_Color: ColorType = b(255, 0, 0)
+    Info_Color: ColorType = b(100, 180, 255)
+    Success_Color: ColorType = b(120, 220, 140)
+    Warning_Color: ColorType = b(255, 200, 90)
+    Error_Color: ColorType = b(255, 110, 110)
 
 class Levels():
     Info = "Info"

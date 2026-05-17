@@ -5,7 +5,7 @@
 ```bash
 pip install uniterm
 ```
-## important for windows
+## additional for windows
 ```bash
 pip install windows-curses
 ```
@@ -15,7 +15,12 @@ pip install windows-curses
 from uniterm import (
     Selector,
     BannerPainter,
-    SelectScreen
+    SelectScreen,
+    Logger,
+    progress_bar_1,
+    show_CLI_cursor,
+    hide_CLI_cursor,
+    switch_color_format
 )
 ```
 
@@ -31,6 +36,8 @@ texts = Selector.Texts(
 choice = Selector.select(texts)
 print(f"Selected: {choice}")
 ```
+
+![Selector](images/Selector.png)
 
 ### `BannerPainter` - gradients for ASCII banners
 
@@ -50,6 +57,8 @@ banner = BannerPainter.two_color_horizontal(
 )
 print(banner)
 ```
+
+![BannerPainter](images/BannerPainter.png)
 
 Additional static methods:
 
@@ -94,10 +103,18 @@ logger = Logger(
     log_info = True,
     log_level = Levels.Success
 )
-logger.Info("hello")
-logger.Success("hello")
-logger.Warning("hello")
-logger.Error("hello")
+logger.Info("An info message.")
+logger.Success("A success message.")
+logger.Warning("A warning message.")
+logger.Error("An error message.")
+```
+![Logger](images/Logger.png)
+
+### `Switch Color Format`
+```python
+from uniterm import switch_color_format
+print(switch_color_format("#ffaa1b"))       # (255, 170, 27)
+print(switch_color_format((255, 170, 27)))  # "#ffaa1b"
 ```
 
 ## Local demos
@@ -111,9 +128,4 @@ See [`licence.md`](licence.md): **Creative Commons Attribution-NonCommercial-Sha
 
 ## Links
 - Repository: [github.com/zisia13/uniterm](https://github.com/zisia13/uniterm)
-- Banner Creator: n/a
-
-## important for windows for SelectScreen
-```bash
-pip install windows-curses
-```
+- Banner Creator: [asciiart/text-to-ascii-art](https://www.asciiart.eu/text-to-ascii-art)

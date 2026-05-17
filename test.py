@@ -10,12 +10,35 @@ from uniterm import (
 
 def test_selector() -> None:
     Selector.DisableAutoUpdate()
-    texts = Selector.Texts(
-        question = "Select something:",
-        choices = ("Option 1", "Option 2", "Option 3")
+    texts1 = Selector.Texts(
+        question="What is your favorite color?",
+        choices=("Blue", "Green", "Red", "Purple")
     )
-    choice = Selector.select(texts)
-    print(f"Selected: {choice}")
+    choice1 = Selector.select(texts1)
+    
+    texts2 = Selector.Texts(
+        question="Choose a programming language:",
+        choices=("Python", "Java", "C++", "Rust")
+    )
+    choice2 = Selector.select(texts2)
+    
+    texts3 = Selector.Texts(
+        question="Select your operating system:",
+        choices=("Windows", "Linux", "macOS", "Other")
+    )
+    choice3 = Selector.select(texts3)
+    
+    texts4 = Selector.Texts(
+        question="Pick a drink:",
+        choices=("Water", "Coffee", "Tea", "Juice")
+    )
+    choice4 = Selector.select(texts4)
+    
+    print("Results:")
+    print(choice1)
+    print(choice2)
+    print(choice3)
+    print(choice4)
 
 def test_banner_painter() -> None:
     BannerPainter.DisableAutoUpdate()
@@ -46,39 +69,50 @@ def test_select_screen() -> None:
 def test_logger() -> None:
     from uniterm.logger.logger import Levels
     logger = Logger(
-    name = "Test",
-    show_time = True,
-    log_info = True,
-    log_level = Levels.Success
+        name = "Test",
+        show_time = True,
+        log_info = True,
+        log_level = Levels.Success
     )
-    logger.Info("hello")
-    logger.Success("hello")
-    logger.Warning("hello")
-    logger.Error("hello")
+    logger.Info("An info message.")
+    logger.Success("A success message.")
+    logger.Warning("A warning message.")
+    logger.Error("An error message.")
+
+def test_color_format_switcher() -> None:
+    from uniterm import switch_color_format
+    print(switch_color_format("#ffaa1b"))
+    print(switch_color_format((255, 170, 27)))
 
 if __name__ == "__main__":
+    import os; os.system("")
     from time import sleep
 
-    test_selector()
+    #test_selector()
 
-    test_banner_painter()
+    #test_banner_painter()
+    #
+    #for counter in range(100):
+    #    progress_bar_1(
+    #        current = counter + 1,
+    #        current_name = "hello",
+    #        total = 100,
+    #        width = 100,
+    #        longest_name = 10
+    #    )
+    #    sleep(0.05)
+    #
+    #hide_CLI_cursor()
+    #sleep(1)
+    #show_CLI_cursor()
+    #sleep(1)
+    #
+    #test_logger()
+    #sleep(1)
+    #
+    #test_color_format_switcher()
+    #sleep(2)
+    #
+    #test_select_screen()
 
-    for counter in range(100):
-        progress_bar_1(
-            current = counter + 1,
-            current_name = "hello",
-            total = 100,
-            width = 100,
-            longest_name = 10
-        )
-        sleep(0.05)
-
-    hide_CLI_cursor()
-    sleep(1)
-    show_CLI_cursor()
-    sleep(1)
-
-    test_logger()
-    sleep(1)
-    
-    test_select_screen()
+    input()

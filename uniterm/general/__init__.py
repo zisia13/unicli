@@ -1,1 +1,2 @@
 from .cli_cursor import show_CLI_cursor, hide_CLI_cursor
+from .color_format_switcher import switch_color_format

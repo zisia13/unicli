@@ -24,10 +24,10 @@ class Selector(ClassAutoupdateable):
 
     @dataclass(frozen = False)
     class Colors:
-        question: str = "\033[38;5;153m"
-        pointer: str = "\033[38;5;45m"
-        choice: str = "\033[38;5;250m"
-        selected_choice: str = "\033[38;5;82m"
+        question: str = "\033[38;5;111m"   # soft blue
+        pointer: str = "\033[38;5;219m"    # pink/magenta
+        choice: str = "\033[38;5;252m"     # hellgrau
+        selected_choice: str = "\033[38;5;120m"  # soft green
 
         @staticmethod
         def build_single_values(r: int, g: int, b: int) -> str:
