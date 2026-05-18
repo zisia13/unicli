@@ -117,6 +117,9 @@ print(switch_color_format("#ffaa1b"))       # (255, 170, 27)
 print(switch_color_format((255, 170, 27)))  # "#ffaa1b"
 ```
 
+### `Waiter`
+# todo
+
 ## Local demos
 ```bash
 python -m uniterm.select.select

@@ -5,7 +5,9 @@ from uniterm import (
     Logger,
     progress_bar_1,
     hide_CLI_cursor,
-    show_CLI_cursor
+    show_CLI_cursor,
+    Waiter,
+    WaiterAnimations
 )
 
 def test_selector() -> None:
@@ -84,6 +86,23 @@ def test_color_format_switcher() -> None:
     print(switch_color_format("#ffaa1b"))
     print(switch_color_format((255, 170, 27)))
 
+def test_waiter() -> None:
+    import sys
+    import time
+
+    sys.stdout.write("\033[?25l")
+    sys.stdout.flush()
+
+    for animation in WaiterAnimations.__all__:
+        loader = Waiter.CharCycle(
+            text = "Sleeping",
+            chars = animation
+        )
+        loader.start()
+        time.sleep(5)
+        loader.stop()
+        os.system("cls")
+
 if __name__ == "__main__":
     import os; os.system("")
     from time import sleep
@@ -114,5 +133,7 @@ if __name__ == "__main__":
     #sleep(2)
     #
     #test_select_screen()
+
+    test_waiter()
 
     input()

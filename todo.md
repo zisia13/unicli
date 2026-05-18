@@ -1,4 +1,4 @@
 - unite var names in diff classes / termselect as cls not obj
 - add missing autoupdate obj and cls
 - add requirements.txt
-- rework logger (+add .collect() and .save() method to store logs) (+add more log levels)
+- rework logger (+add .collect() and .save() method to store logs) (+add more log levels) (origin / filename / functionname)

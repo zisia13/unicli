@@ -1,4 +1,4 @@
-from typing import TypeAlias, Optional
+from typing import TypeAlias, Optional, List
 from datetime import datetime
 from dataclasses import dataclass
 
@@ -28,6 +28,24 @@ class Levels():
     Warning = "Warning"
     Error = "Error"
 
+class Logs:
+    def __init__(self):
+        self.logs: List[str] = []
+        self.working: bool = False
+
+    def collect(self) -> None:
+        self.working = True
+
+    def add(self, log: str) -> bool:
+        if self.working:
+            self.logs.append(log)
+            return True
+        else:
+            return False
+
+    def stop(self) -> None:
+        self.working = False
+
 class Logger:
     def __init__(
             self,
@@ -55,6 +73,9 @@ class Logger:
         self.name = name
         self.log_level = log_level
         self.log_info = log_info
+
+        self.logs = Logs()
+
 
     def _get_time(self) -> str:
         return datetime.now().strftime("%H:%M:%S")
@@ -86,6 +107,16 @@ class Logger:
         outstr += self._asb(self._level_to_color(level) + str(level))
         outstr += f": {msg}"
         print(outstr)
+
+        try: self.logs.add(
+            {   
+                "outstr" : str(outstr),
+                "msg" : str(msg),
+                "level" : str(level),
+                "time" : str(self._get_time())
+            }
+        )
+        except: pass
     
     def Info(self, msg: str) -> None:
         self._print(msg, Levels.Info)

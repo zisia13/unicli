@@ -12,7 +12,7 @@ long_description = (
 
 setup(
     name = "uniterm",
-    version = "0.2.6",
+    version = "0.2.7",
     description = "A collection lib of CLI utilities - selects, banners, colors, and full terminal screens.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
