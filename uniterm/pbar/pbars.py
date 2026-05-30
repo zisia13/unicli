@@ -42,7 +42,8 @@ def progress_bar_1(
         finished_color: ColorString = _c.PASTELL_GREEN,
         unfinished_color: ColorString = _c.PASTELL_RED,
         current_item_name_color: ColorString = _c._theme_color,
-        reset: ColorString = _c._reset
+        reset: ColorString = _c._reset,
+        newline: bool = False
     ):
 
     PROGRESSBAR_ASCII_COMPLETE = finished_color + "━" + reset #"█"
@@ -65,7 +66,8 @@ def progress_bar_1(
 
     sys.stdout.write(f'\r[{bar}] {current}/{total} {percent * 100:.1f}% File: {theme_color}{current_name}{_c._reset}')
     sys.stdout.flush()
-    sys.stdout.write("\033[A")
+    if newline:
+        sys.stdout.write("\033[A")
     time.sleep(0.01)
 
 
