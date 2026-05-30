@@ -107,7 +107,7 @@ if __name__ == "__main__":
     import os; os.system("")
     from time import sleep
 
-    #test_selector()
+    test_selector()
 
     #test_banner_painter()
     #
@@ -134,6 +134,6 @@ if __name__ == "__main__":
     #
     #test_select_screen()
 
-    test_waiter()
+    #test_waiter()
 
     input()

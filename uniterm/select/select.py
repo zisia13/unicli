@@ -90,7 +90,8 @@ class Selector(ClassAutoupdateable):
                     f"{colors.selected_choice}{choice}{ANSI_RESET}"
                 )
             else:
-                print(f"  {colors.choice}{choice}{ANSI_RESET}")
+                prespace = (len(texts.pointer) + 1) * " "
+                print(f"{prespace}{colors.choice}{choice}{ANSI_RESET}")
 
     @classmethod
     @classautoupdatecheck
@@ -100,6 +101,8 @@ class Selector(ClassAutoupdateable):
         colors: Optional[Colors] = None,
         keybinds: Optional[Keybinds] = None,
     ) -> str:
+        texts.choices = list(texts.choices) # cant change values in tuple for spaces so convert to list
+
         if not texts.choices:
             raise ValueError("choices must not be empty.")
 
@@ -116,6 +119,19 @@ class Selector(ClassAutoupdateable):
         selected_index = 0
         line_count = len(texts.choices) + 1
 
+        # calc longest choice for formatting reasons
+        longest_option: int = 0
+        for choice in texts.choices:
+            if len(choice) > longest_option:
+                longest_option = len(choice)
+        longest_option += len(texts.pointer)
+
+        # add spaces to every choice and strip them later when returning value
+        for counter, choice in enumerate(texts.choices):
+            if longest_option > len(choice):
+                diff = longest_option - len(choice)
+                texts.choices[counter] = choice + diff * " "
+
         print("\033[?25l", end = "")
         try:
             while True:
@@ -128,7 +144,7 @@ class Selector(ClassAutoupdateable):
                     selected_index = (selected_index + 1) % len(texts.choices)
                 elif key == actions.enter:
                     print("\033[?25h", end = "")
-                    return texts.choices[selected_index]
+                    return texts.choices[selected_index].strip() # stip to remove the added spaces from before
 
                 # Move cursor to menu start and redraw.
                 print(f"\033[{line_count}F", end = "")

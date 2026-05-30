@@ -7,6 +7,8 @@ import subprocess
 import sys
 from abc import ABC, abstractmethod
 
+from ..settings import is_perma_disable_auto_update_file_present
+
 _autoupdate_var_name = "_autoupdate"
 
 class ObjectAutoupdateable(ABC):
@@ -78,4 +80,5 @@ class Updater:
 
     @classmethod
     def run(cls) -> None:
-        cls._update() if cls._check_for_update() else None
+        if not is_perma_disable_auto_update_file_present() and cls._check_for_update():
+            cls._update()
