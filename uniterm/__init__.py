@@ -5,6 +5,7 @@ from .logger import Logger
 from .pbar import progress_bar_1
 from .general import show_CLI_cursor, hide_CLI_cursor, switch_color_format
 from .waiter import Waiter, Animations as WaiterAnimations
+from .carousel import CarouselAnimation
 
 __all__ = [
     "Selector",
@@ -17,5 +18,6 @@ __all__ = [
     "hide_CLI_cursor",
     "switch_color_format",
     "Waiter",
-    "WaiterAnimations"
+    "WaiterAnimations",
+    "CarouselAnimation"
 ]

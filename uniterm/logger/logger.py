@@ -1,9 +1,9 @@
-from typing import TypeAlias, Optional, List, Callable
+from typing import TypeAlias, Optional, List, Callable, Union
 from datetime import datetime
 from dataclasses import dataclass
 
 LevelType: TypeAlias = str
-ColorType: TypeAlias = str # #xxxxxx
+ColorType: TypeAlias = str # "\033[38;2;r;g;bm"
 ColorVal: TypeAlias = int # 0-255
 
 def b(r: ColorVal, g: ColorVal, b: ColorVal) -> ColorType:
@@ -69,6 +69,39 @@ class Logs:
     def stop(self) -> None:
         self.working = False
 
+class LogParam:
+    def __init__(self, name: str, func: Union[Callable, str], color: ColorType) -> None:
+        """
+        Result of func will be converted to str.
+        If func is None, func = name
+        """
+        if name is None or name is ...:
+            raise ValueError("'name' must not be None or Ellipsis.")
+
+        if color is None or color is ...:
+            raise ValueError("'color' must not be None or Ellipsis.")
+
+        if func is None:
+            self.func = name
+        elif func is str:
+            pass
+        elif isinstance(func, str):
+            pass
+        else:
+            if not callable(func):
+                raise TypeError(f"'func' for '{name}' must be callable.")
+
+            if func.__annotations__.get("return") is not str:
+                raise TypeError(f"'func' for '{name}' must be annotated with return type 'str'.")
+
+        self.name = str(name)
+        self.func = func
+        self.color = str(color)
+    
+    def build_content(self) -> str:
+        try: return str(self.color + self.func())
+        except: return str(self.color + self.func)
+
 class Logger:
     _instances = {}
 
@@ -91,26 +124,57 @@ class Logger:
 
             name: Optional[str] = None, # extra [] field at start of string for name, Example: [Simple Logger][00:00:00][n]
             show_time: bool = True,
+            show_name: bool = True,
             log_level: LevelType = Levels.Success,
             log_info: bool = True,
+            collect_logs: bool = True,
+
             separator: Callable = Separators.line
         ):
 
-        self.colors = Colors(
+        self.colors: Colors = Colors(
             Info = info_color,
             Success = success_color,
             Warning = warning_color,
             Error = error_color
         )
+        self.logs: Logs = Logs()
 
-        self.show_time = show_time
-        self.name = name
-        self.log_level = log_level
-        self.log_info = log_info
+        self.show_time: bool = show_time
+        self.show_name: bool = show_name
+        self.log_info: bool = log_info
+        self.collect_logs: bool = collect_logs
 
-        self.separator = separator
-        self.logs = Logs()
+        self.name: str = name
+        self.log_level: LevelType = log_level
+        
+        self.separator: Callable = separator
 
+        self.log_params: List[LogParam] = []
+
+        self._create_log_param_entries()
+    
+    def _create_log_param_entries(self) -> None:
+        if self.show_name:
+            name_param = LogParam(
+                name = "show_name",
+                func = self.name if not self.name in ["", None] else "n/a",
+                color = _reset
+            )
+            self.add_log_param(name_param)
+
+        if self.show_time:
+            time_param = LogParam(
+                name = "show_time",
+                func = self._get_time,
+                color = _reset
+            )
+            self.add_log_param(time_param)
+
+    def add_log_param(self, log_param: LogParam) -> None:
+        if not isinstance(log_param, LogParam):
+            self.Warning(f"{log_param} must be a {LogParam.__name__}!")
+        self.log_params.append(log_param)
 
     def _get_time(self) -> str:
         return datetime.now().strftime("%H:%M:%S")
@@ -134,21 +198,22 @@ class Logger:
         if (self.log_level == Levels.Error) and (level not in [Levels.Info, Levels.Error]): return None # if log level set to "Levels.Error"
 
         outstr = ""
-        outstr += self.separator(self.name) if not self.name in ["", None] else ""
-        outstr += self.separator(self._get_time()) if self.show_time else ""
-        outstr += self.separator(self._level_to_color(level) + str(level))
+        for log_param in self.log_params:
+            outstr += self.separator(log_param.build_content())
+        outstr += self.separator(self._level_to_color(level) + str(level)) # Required
         outstr += f"{msg}"
         print(outstr)
 
-        try: self.logs.add(
-            {   
-                "outstr" : str(outstr),
-                "msg" : str(msg),
-                "level" : str(level),
-                "time" : str(self._get_time())
-            }
-        )
-        except: pass
+        if self.collect_logs:
+            #todo check size of log list, maybe autoreset or delete dynamic
+            self.logs.add(
+                {   
+                    "outstr" : str(outstr),
+                    "msg" : str(msg),
+                    "level" : str(level),
+                    "time" : str(self._get_time())
+                }
+            )
     
     def Info(self, msg: str) -> None:
         self._print(msg, Levels.Info)
