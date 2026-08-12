@@ -6,6 +6,7 @@ from .pbar import progress_bar_1
 from .general import show_CLI_cursor, hide_CLI_cursor, switch_color_format
 from .waiter import Waiter, Animations as WaiterAnimations
 from .carousel import CarouselAnimation
+from .livehighlighting import LiveHighlightingInputWin
 
 __all__ = [
     "Selector",
@@ -19,5 +20,6 @@ __all__ = [
     "switch_color_format",
     "Waiter",
     "WaiterAnimations",
-    "CarouselAnimation"
+    "CarouselAnimation",
+    "LiveHighlightingInputWin"
 ]

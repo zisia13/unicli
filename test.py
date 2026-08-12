@@ -109,31 +109,37 @@ if __name__ == "__main__":
 
     test_selector()
 
-    #test_banner_painter()
-    #
-    #for counter in range(100):
-    #    progress_bar_1(
-    #        current = counter + 1,
-    #        current_name = "hello",
-    #        total = 100,
-    #        width = 100,
-    #        longest_name = 10
-    #    )
-    #    sleep(0.05)
-    #
-    #hide_CLI_cursor()
-    #sleep(1)
-    #show_CLI_cursor()
-    #sleep(1)
-    #
-    #test_logger()
-    #sleep(1)
-    #
-    #test_color_format_switcher()
-    #sleep(2)
-    #
-    #test_select_screen()
+    import sys; sys.exit()
 
-    #test_waiter()
+    test_banner_painter()
+    
+    for counter in range(100):
+        progress_bar_1(
+            current = counter + 1,
+            current_name = "hello",
+            total = 100,
+            width = 100,
+            longest_name = 10
+        )
+        sleep(0.05)
+    
+    hide_CLI_cursor()
+    sleep(1)
+    show_CLI_cursor()
+    sleep(1)
+    
+    test_logger()
+    sleep(1)
+    
+    test_color_format_switcher()
+    sleep(2)
+    
+
+    test_waiter()
+
+    sleep(5)
+    test_select_screen()
+
+    
 
     input()
